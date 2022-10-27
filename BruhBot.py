@@ -37,10 +37,10 @@ async def on_message(message):
         await message.channel.send(f"{message.author} calmati bro")
 
     elif "puttana" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro (Anna)")
+        await message.channel.send(f"{message.author} calmati bro ()")
 
     elif "fabrizio" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro (Gay)")
+        await message.channel.send(f"{message.author} calmati bro ()")
 
     await bot.process_commands(message)
 
