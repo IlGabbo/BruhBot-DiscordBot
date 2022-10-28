@@ -8,7 +8,7 @@ import random
 
 intents = discord.Intents.default()
 intents.message_content = True
-token = "MTAzMzk5MDcwNzk4OTQ2NzE4Ng.GaXdIw.VaKPepM-2gUG0ESM8jkQbFCTVttuwB-s9NSrg4"
+token = ""
 bot = commands.Bot(command_prefix="$", intents=intents)
 
 
