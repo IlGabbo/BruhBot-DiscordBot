@@ -1,1 +1,1 @@
-# BruhBot-Work-in-progress
+# BruhBot DiscordBot
