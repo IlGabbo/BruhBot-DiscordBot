@@ -12,43 +12,32 @@ token = ""
 bot = commands.Bot(command_prefix="$", intents=intents)
 
 
-
 @bot.event
 async def on_message(message):
-    if "cazzo" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro")
+    notAcceptedMessage = [
+        "cazzo",
+        "merda",
+        "vaffanculo",
+        "fanculo",
+        "gym",
+        "fuck",
+        "porco dio",
+        "porcodio",
+        "puttana",
+        "troia",
+        "zoccola"
+    ]
 
-    elif "merda" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro")
-
-    elif "vaffanculo" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro")
-
-    elif "gym" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro")
-
-    elif "fuck" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro")
-
-    elif "porco dio" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro")
-
-    elif "porcodio" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro")
-
-    elif "puttana" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro ()")
-
-    elif "fabrizio" in message.content.lower():
-        await message.channel.send(f"{message.author} calmati bro ()")
+    for i in range(len(notAcceptedMessage)):
+        if notAcceptedMessage[i] in message.content.lower():
+            await message.channel.send(f"{message.author} calmati bro")
 
     await bot.process_commands(message)
 
 
-
 @bot.command()
 async def info(ctx, member: discord.Member = None):
-    if member == None:
+    if member is None:
         enb = discord.Embed(timestamp=ctx.message.created_at)
         enb.set_author(name="Bot info")
         enb.add_field(name="Prefix: $", value="###", inline=False)
@@ -96,9 +85,9 @@ async def randomjoke(ctx, index=None):
          Dottore: No, ma almeno ti ricorderà a cosa serve il buco del culo!
              """,  # 5
         "Come fai a capire di essere ad un picnic tra gay? Gli hotdog sanno di merda."  # 6
-        ]
+    ]
 
-    if index == None:
+    if index is None:
         joke = random.choice(jokes)
         await ctx.send(joke)
 
@@ -113,8 +102,8 @@ async def randomjoke(ctx, index=None):
 @has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member = None, reason=None):
     try:
-        if reason == None:
-            reason = "nessun motivo"
+        if reason is None:
+            reason = "'Non specificato'"
 
         if member == ctx.message.author or member == None:
             await ctx.send(f"{ctx.message.author} non puoi bannarti", delete_after=4)
@@ -130,22 +119,6 @@ async def ban(ctx, member: discord.Member = None, reason=None):
 
     except:
         await ctx.send("Non hai abbastanza permessi", delete_after=4)
-
-
-@bot.command()
-@has_permissions(ban_members=True)
-async def pardon(ctx, *, member):
-    banned = await ctx.guild.bans()
-    memberName, discriminator = member.split("#")
-
-    for bans in banned:
-        users = bans.user
-
-        if (users.name, users.discriminator) == (memberName, discriminator):
-            await ctx.guild.unban(users)
-            await ctx.send(f"{users.mention} è stato sbannato")
-            return
-
 
 # Move command
 
@@ -167,10 +140,11 @@ async def voicekick(ctx, member: discord.Member):
                         color=0x6109af)
     await ctx.send(embed=emb)
 
+
 @bot.command()
 async def handicaplevel(ctx, member: discord.Member = None):
     level = random.randint(0, 104)
-    if member == None:
+    if member is None:
         emb = discord.Embed(title=f"{ctx.message.author}",
                             description=f"Il tuo livello di handicap è {str(level)} su 104",
                             color=0x6109af)
@@ -181,6 +155,7 @@ async def handicaplevel(ctx, member: discord.Member = None):
                             description=f"Il livello di handicap di {member} è {str(level)} su 104",
                             color=0x6109af)
         await ctx.send(embed=emb)
+
 
 @bot.command()
 async def play(ctx, argument=None):
@@ -207,7 +182,7 @@ async def play(ctx, argument=None):
                     voice.play(source)
 
                 except:
-                    await ctx.send("First use $stop")
+                    await ctx.send("First use $leave")
 
             else:
                 print(len(audioList))
@@ -230,6 +205,7 @@ async def play(ctx, argument=None):
     else:
         await ctx.send("Entra prima in un canale vocale")
 
+
 @bot.command()
 async def stop(ctx):
     voice = ctx.message.guild.voice_client
@@ -239,14 +215,14 @@ async def stop(ctx):
         await ctx.send("The bot is not connected to a voice channel.")
 
 
-
 """ -------------------------------------------- Error Handling -------------------------------------------- """
 
 
 @info.error
-async def info_error(ctx,error):
+async def info_error(ctx, error):
     if isinstance(error, commands.MemberNotFound):
         await ctx.send("Utente inesistente", delete_after=4)
+
 
 @ban.error
 async def ban_error(ctx, error):
@@ -259,9 +235,12 @@ async def move_error(ctx, error):
     if isinstance(error, commands.MemberNotFound):
         await ctx.send("Non esiste nessuno con quel nome", delete_after=4)
 
+
 @handicaplevel.error
 async def handicaplevel_error(ctx, error):
     if isinstance(error, commands.MemberNotFound):
         await ctx.send("L'utente non esiste", delete_after=4)
 
+
 bot.run(token)
+
