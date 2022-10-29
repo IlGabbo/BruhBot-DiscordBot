@@ -207,7 +207,7 @@ async def play(ctx, argument=None):
                     voice.play(source)
 
                 except:
-                    await ctx.send("First use $leave")
+                    await ctx.send("First use $stop")
 
             else:
                 print(len(audioList))
