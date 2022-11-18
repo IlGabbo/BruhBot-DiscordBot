@@ -25,7 +25,10 @@ async def on_message(message):
         "porcodio",
         "puttana",
         "troia",
-        "zoccola"
+        "zoccola",
+        "gim",
+        "jim",
+        "jym"
     ]
 
     for i in range(len(notAcceptedMessage)):
