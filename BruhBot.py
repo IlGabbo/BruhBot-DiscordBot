@@ -218,7 +218,7 @@ async def stop(ctx):
         await ctx.send("The bot is not connected to a voice channel.")
 
 
-""" -------------------------------------------- Error Handling -------------------------------------------- """
+""" --------------------------------------------* Error Handling *-------------------------------------------- """
 
 
 @info.error
