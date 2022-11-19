@@ -8,7 +8,7 @@ import random
 
 intents = discord.Intents.default()
 intents.message_content = True
-token = ""
+token = "MTAzMzk5MDcwNzk4OTQ2NzE4Ng.G8VSm3.rdgWDfcgRcxJL38tfi0_KnpQctGLyJ9A-Ojjzc"
 bot = commands.Bot(command_prefix="$", intents=intents)
 
 
@@ -25,10 +25,7 @@ async def on_message(message):
         "porcodio",
         "puttana",
         "troia",
-        "zoccola",
-        "gim",
-        "jim",
-        "jym"
+        "zoccola"
     ]
 
     for i in range(len(notAcceptedMessage)):
@@ -44,13 +41,13 @@ async def info(ctx, member: discord.Member = None):
         enb = discord.Embed(timestamp=ctx.message.created_at)
         enb.set_author(name="Bot info")
         enb.add_field(name="Prefix: $", value="###", inline=False)
-        enb.add_field(name="randomjoke", value="Genera una battuta blackhumor casuale", inline=False)
-        enb.add_field(name="voicekick", value="Kicka un utente dalla chat vocale", inline=False)
-        enb.add_field(name="move", value="Sposta un utente da una chat vocale all'altra", inline=False)
-        enb.add_field(name="handicaplevel", value="Calcola il tuo livello di handicap", inline=False)
-        enb.add_field(name="ban", value="Banna un utente", inline=False)
-        enb.add_field(name="play", value="Ascolta un audio casuale", inline=False)
-        enb.add_field(name="stop", value="Disconnetti il bot dalla chat vocale", inline=False)
+        enb.add_field(name="randomjoke", value="Generate a joke", inline=False)
+        enb.add_field(name="voicekick", value="Kick a user from voice chat", inline=False)
+        enb.add_field(name="move", value="Move a user from one voice chat to another", inline=False)
+        #enb.add_field(name="handicaplevel", value="Calculate your handicap level", inline=False)
+        enb.add_field(name="ban", value="Ban a user", inline=False)
+        enb.add_field(name="play", value="Play random audio", inline=False)
+        enb.add_field(name="stop", value="Disconnect bot from voice chat", inline=False)
 
         await ctx.send(embed=enb)
 
@@ -61,13 +58,13 @@ async def info(ctx, member: discord.Member = None):
             infoEmbed.set_thumbnail(url=member.display_avatar)
             infoEmbed.add_field(name="ID:", value=member.id, inline=False)
             infoEmbed.add_field(name="Name:", value=member.display_name, inline=False)
-            infoEmbed.add_field(name="Creato il:", value=member.created_at, inline=False)
-            infoEmbed.add_field(name="Entrato il:", value=member.joined_at, inline=False)
-            infoEmbed.add_field(name="Bot?:", value=member.bot, inline=False)
+            infoEmbed.add_field(name="Created:", value=member.created_at, inline=False)
+            infoEmbed.add_field(name="Joined:", value=member.joined_at, inline=False)
+            infoEmbed.add_field(name="Is a bot?:", value=member.bot, inline=False)
             await ctx.send(embed=infoEmbed)
 
         except:
-            await ctx.send("User non valido", delete_after=4)
+            await ctx.send("Not a valid user", delete_after=4)
 
 
 @bot.command()
@@ -106,22 +103,22 @@ async def randomjoke(ctx, index=None):
 async def ban(ctx, member: discord.Member = None, reason=None):
     try:
         if reason is None:
-            reason = "'Non specificato'"
+            reason = "'None'"
 
         if member == ctx.message.author or member == None:
-            await ctx.send(f"{ctx.message.author} non puoi bannarti", delete_after=4)
+            await ctx.send(f"{ctx.message.author} you can't ban yourself", delete_after=4)
             return
 
         await member.ban(reason=reason)
         emb = discord.Embed(title="User banning",
-                            description=f"{ctx.message.author} ha bannato {member} per {reason}",
+                            description=f"{ctx.message.author} banned {member}, Reason: {reason}",
                             color=0x6109af)
 
         await ctx.send(embed=emb)
-        await member.send(f"Sei stato bannato da {member.guild.name} per {reason}")
+        await member.send(f"You are banned {member.guild.name}, Reason: {reason}")
 
     except:
-        await ctx.send("Non hai abbastanza permessi", delete_after=4)
+        await ctx.send("Permission Denied", delete_after=4)
 
 # Move command
 
@@ -139,7 +136,7 @@ async def move(ctx, member: discord.Member, chan):
 async def voicekick(ctx, member: discord.Member):
     await member.edit(voice_channel=None)
     emb = discord.Embed(title="User kick",
-                        description=f"{member} è stato kickato da {ctx.message.author}",
+                        description=f"{member} was kicked by {ctx.message.author}",
                         color=0x6109af)
     await ctx.send(embed=emb)
 
@@ -149,13 +146,13 @@ async def handicaplevel(ctx, member: discord.Member = None):
     level = random.randint(0, 104)
     if member is None:
         emb = discord.Embed(title=f"{ctx.message.author}",
-                            description=f"Il tuo livello di handicap è {str(level)} su 104",
+                            description=f"Your hadicap level is {str(level)} out of 104",
                             color=0x6109af)
         await ctx.send(embed=emb)
 
     else:
         emb = discord.Embed(title=f"{member}",
-                            description=f"Il livello di handicap di {member} è {str(level)} su 104",
+                            description=f"The handicap level of {member} is {str(level)} out of 104",
                             color=0x6109af)
         await ctx.send(embed=emb)
 
@@ -170,7 +167,7 @@ async def play(ctx, argument=None):
 
         if str(argument).strip() == "list":
             musicList = discord.Embed(timestamp=ctx.message.created_at)
-            musicList.set_author(name="Musica disponibile")
+            musicList.set_author(name="Available Audios")
             for i in range(len(audioList)):
                 musicList.add_field(name="--------------", value=f"{audioList[i][: -4]}", inline=False)
 
@@ -185,7 +182,7 @@ async def play(ctx, argument=None):
                     voice.play(source)
 
                 except:
-                    await ctx.send("First use $leave")
+                    await ctx.send("First use $stop")
 
             else:
                 print(len(audioList))
@@ -201,12 +198,12 @@ async def play(ctx, argument=None):
                         continue
 
                 if not check:
-                    await ctx.send("Brano non trovato")
+                    await ctx.send("Audio not found")
 
 
 
     else:
-        await ctx.send("Entra prima in un canale vocale")
+        await ctx.send("First join to voice channel")
 
 
 @bot.command()
@@ -218,32 +215,31 @@ async def stop(ctx):
         await ctx.send("The bot is not connected to a voice channel.")
 
 
-""" --------------------------------------------* Error Handling *-------------------------------------------- """
+""" -------------------------------------------- Error Handling -------------------------------------------- """
 
 
 @info.error
 async def info_error(ctx, error):
     if isinstance(error, commands.MemberNotFound):
-        await ctx.send("Utente inesistente", delete_after=4)
+        await ctx.send("User not found", delete_after=4)
 
 
 @ban.error
 async def ban_error(ctx, error):
     if isinstance(error, commands.MemberNotFound):
-        await ctx.send("Utente inesistente", delete_after=4)
+        await ctx.send("User not found", delete_after=4)
 
 
 @move.error
 async def move_error(ctx, error):
     if isinstance(error, commands.MemberNotFound):
-        await ctx.send("Non esiste nessuno con quel nome", delete_after=4)
+        await ctx.send("User not found", delete_after=4)
 
 
 @handicaplevel.error
 async def handicaplevel_error(ctx, error):
     if isinstance(error, commands.MemberNotFound):
-        await ctx.send("L'utente non esiste", delete_after=4)
+        await ctx.send("User not found", delete_after=4)
 
 
 bot.run(token)
-
